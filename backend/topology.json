@@ -1,0 +1,10 @@
+{
+  "Mumbai-Core-01": {"type": "core", "connected_to": ["Delhi-Edge-05", "Bangalore-Core-02", "Mumbai-Backup-Link"]},
+  "Bangalore-Core-02": {"type": "core", "connected_to": ["Mumbai-Core-01", "Chennai-Peering-01"]},
+  "Delhi-Edge-05": {"type": "edge", "connected_to": ["Mumbai-Core-01", "Local-ISP-Node"]},
+  "NYC-Peering-01": {"type": "peering", "connected_to": ["London-Core-01", "Frankfurt-Core-02"]},
+  "Chennai-Link-03": {"type": "link", "connected_to": ["Bangalore-Core-02", "Chennai-Peering-01"]},
+  "London-Core-01": {"type": "core", "connected_to": ["NYC-Peering-01", "Frankfurt-Core-02"]},
+  "Frankfurt-Core-02": {"type": "core", "connected_to": ["NYC-Peering-01", "London-Core-01"]}
+}
+

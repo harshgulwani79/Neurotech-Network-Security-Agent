@@ -1,0 +1,5 @@
+{
+  "name": "NetMoniAI",
+  "description": "Autonomous Network Operations Agent for ISPs, featuring real-time telemetry monitoring, AI-driven reasoning, and automated network interventions.",
+  "requestFramePermissions": []
+}
