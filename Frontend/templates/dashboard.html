@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Operations Center Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066cc;
+            --success: #00aa44;
+            --warning: #ff9900;
+            --danger: #cc0000;
+            --dark-bg: #0f1419;
+            --card-bg: #1a1f2e;
+            --border: #2d3748;
+            --text: #e2e8f0;
+            --text-muted: #a0aec0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a2332 100%);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid var(--primary);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .status-badge {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 102, 204, 0.1);
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .card-value {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .gauge {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .gauge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--warning));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .devices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .device-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .device-card.healthy {
+            border-color: var(--success);
+        }
+
+        .device-card.anomaly {
+            border-color: var(--danger);
+            background: rgba(204, 0, 0, 0.05);
+        }
+
+        .device-name {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .device-status {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .device-status.healthy {
+            background: var(--success);
+        }
+
+        .device-status.anomaly {
+            background: var(--danger);
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: var(--text-muted);
+        }
+
+        .metric-value {
+            font-weight: 600;
+        }
+
+        .anomalies-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .tier-section {
+            margin-bottom: 2rem;
+        }
+
+        .tier-header {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid;
+            font-weight: 600;
+        }
+
+        .tier-header.tier1 {
+            background: rgba(0, 170, 68, 0.1);
+            border-color: var(--success);
+        }
+
+        .tier-header.tier2 {
+            background: rgba(255, 153, 0, 0.1);
+            border-color: var(--warning);
+        }
+
+        .tier-header.tier3 {
+            background: rgba(204, 0, 0, 0.1);
+            border-color: var(--danger);
+        }
+
+        .anomaly-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .anomaly-item:hover {
+            border-color: var(--primary);
+        }
+
+        .anomaly-device {
+            flex: 1;
+        }
+
+        .anomaly-metrics {
+            display: flex;
+            gap: 1.5rem;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .anomaly-action {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0052a3;
+            box-shadow: 0 0 10px rgba(0, 102, 204, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #008833;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #990000;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .audit-log {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .audit-entry {
+            padding: 0.75rem;
+            border-left: 3px solid var(--primary);
+            margin-bottom: 0.75rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .timestamp {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .setup-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .setup-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .setup-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .setup-card p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .setup-card.info {
+            background: rgba(0, 102, 204, 0.05);
+            border-color: var(--primary);
+        }
+
+        .setup-card.success {
+            background: rgba(0, 170, 68, 0.05);
+            border-color: var(--success);
+        }
+
+        .setup-card.success h3 {
+            color: var(--success);
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: var(--text);
+            font-size: 0.9rem;
+            flex: 1;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #0052a3;
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+        }
+
+        .meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .file-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .file-list li:last-child {
+            border-bottom: none;
+        }
+
+        .file-list strong {
+            color: var(--text);
+        }
+
+        .status {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .anomaly-metrics {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .anomaly-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .code-block {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .copy-btn {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛰️ Network Operations Center</h1>
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            <span>System Online</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Quick Stats -->
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-number" id="total-devices">0</div>
+                <div class="stat-label">Active Devices</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="total-anomalies">0</div>
+                <div class="stat-label">Anomalies Detected</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="auto-fixes">0</div>
+                <div class="stat-label">Auto-Fixed (Tier 1)</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="pending-approval">0</div>
+                <div class="stat-label">Pending Approval (Tier 2)</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('devices')">📱 Devices</button>
+            <button class="tab" onclick="switchTab('anomalies')">⚠️ Anomalies</button>
+            <button class="tab" onclick="switchTab('audit')">📋 Audit Log</button>
+            <button class="tab" onclick="switchTab('topology')">🌐 Topology</button>
+            <button class="tab" onclick="switchTab('learning')">🧠 Agent Learning</button>
+        </div>
+
+        <!-- Devices Tab -->
+        <div id="devices" class="tab-content active">
+            <div class="section-title">Network Devices Status</div>
+            <div class="devices-grid" id="devices-container">
+                <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                    <div class="loader"></div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">Loading devices...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Anomalies Tab -->
+        <div id="anomalies" class="tab-content">
+            <div class="section-title">Network Anomalies by Severity</div>
+            
+            <div class="tier-section">
+                <div class="tier-header tier1">✅ Tier 1: Auto-Fix Ready (Low Risk)</div>
+                <div id="tier1-container">
+                    <p style="color: var(--text-muted); padding: 1rem;">Loading...</p>
+                </div>
+            </div>
+
+            <div class="tier-section">
+                <div class="tier-header tier2">⚠️ Tier 2: Pending Approval (Medium Risk)</div>
+                <div id="tier2-container">
+                    <p style="color: var(--text-muted); padding: 1rem;">Loading...</p>
+                </div>
+            </div>
+
+            <div class="tier-section">
+                <div class="tier-header tier3">🔴 Tier 3: Escalate (Critical)</div>
+                <div id="tier3-container">
+                    <p style="color: var(--text-muted); padding: 1rem;">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audit Log Tab -->
+        <div id="audit" class="tab-content">
+            <div class="section-title">Audit Log</div>
+
+            <!-- Action History Panel (Issue 4) -->
+            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                    <span style="font-weight:600;font-size:1rem;">⚡ Live Action History</span>
+                    <button class="btn btn-primary" onclick="loadAuditLog()">↻ Refresh</button>
+                </div>
+                <div id="action-history" style="max-height:200px;overflow-y:auto;">
+                    <p style="color:var(--text-muted);">Loading…</p>
+                </div>
+            </div>
+
+            <div style="font-weight:600;margin-bottom:0.75rem;">Full Raw Audit Log</div>
+            <div class="audit-log" id="audit-log-container">
+                <p style="color: var(--text-muted);">Loading audit log...</p>
+            </div>
+        </div>
+
+        <!-- Topology Tab — visual network map + node table -->
+        <div id="topology" class="tab-content">
+            <div class="section-title">Network Topology</div>
+
+            <!-- Network Graph Canvas -->
+            <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:1.5rem;">
+                <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;text-align:center;">
+                    🟦 Switch/Router &nbsp;&nbsp; 🟩 Host &nbsp;&nbsp; — Link (hover for details)
+                </div>
+                <svg id="topo-svg" width="100%" height="480" style="display:block;"></svg>
+            </div>
+
+            <!-- Node detail cards -->
+            <div class="section-title" style="font-size:1rem;margin-top:1rem;">Node Details</div>
+            <div class="devices-grid" id="topology-container">
+                <div style="grid-column:1/-1;text-align:center;padding:2rem;">
+                    <div class="loader"></div>
+                    <p style="margin-top:1rem;color:var(--text-muted);">Loading topology…</p>
+                </div>
+            </div>
+        </div>
+        <!-- Agent Learning Tab -->
+        <div id="learning" class="tab-content">
+            <div class="section-title">🧠 What the Agent Has Learned</div>
+
+            <!-- Overall accuracy bar -->
+            <div class="stats-row" id="learning-stats-row" style="margin-bottom:1.5rem;">
+                <div class="stat-box">
+                    <div class="stat-number" id="ls-total" style="color:var(--primary);">—</div>
+                    <div class="stat-label">Total Decisions</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="ls-accuracy" style="color:var(--success);">—</div>
+                    <div class="stat-label">Accuracy %</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="ls-rolled" style="color:var(--warning);">—</div>
+                    <div class="stat-label">Rolled Back</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="ls-suboptimal" style="color:var(--danger);">—</div>
+                    <div class="stat-label">Suboptimal</div>
+                </div>
+            </div>
+
+            <!-- Learned IF...THEN Rules -->
+            <div style="margin-bottom:2rem;">
+                <div class="section-title" style="font-size:1rem;margin-bottom:1rem;">📜 Learned IF → THEN Policies</div>
+                <div id="learned-rules-container">
+                    <div style="text-align:center;padding:2rem;"><div class="loader"></div></div>
+                </div>
+            </div>
+
+            <!-- Action Distribution -->
+            <div style="margin-bottom:2rem;">
+                <div class="section-title" style="font-size:1rem;margin-bottom:1rem;">⚡ Action Distribution</div>
+                <div id="action-dist-container" style="display:flex;flex-wrap:wrap;gap:1rem;"></div>
+            </div>
+
+            <!-- Per-Device Accuracy -->
+            <div style="margin-bottom:2rem;">
+                <div class="section-title" style="font-size:1rem;margin-bottom:1rem;">📡 Per-Device Accuracy</div>
+                <div id="device-accuracy-container"></div>
+            </div>
+
+            <!-- Recent Decisions Timeline -->
+            <div style="margin-bottom:2rem;">
+                <div class="section-title" style="font-size:1rem;margin-bottom:1rem;">🕐 Recent Decisions</div>
+                <div id="recent-decisions-container" style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1rem;"></div>
+            </div>
+        </div>
+
+    </div><!-- end .container -->
+
+    <script>
+        // ── CONFIG ──────────────────────────────────────────────────
+        const API_BASE = '/api';
+        let devices = [];
+        let anomalies = {};
+        // Action history store (Issue 4)
+        const actionHistory = [];
+
+        // ── INIT ────────────────────────────────────────────────────
+        console.log('Dashboard initialized');
+        loadData();
+        setInterval(loadData, 10000);
+
+        // ── TAB SWITCHING (Fix: auto-load topology & audit) ─────────
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+
+            const tabElement = document.getElementById(tabName);
+            if (tabElement) tabElement.classList.add('active');
+            if (event && event.target) event.target.classList.add('active');
+
+            if (tabName === 'audit')    loadAuditLog();
+            if (tabName === 'topology') loadTopology();
+            if (tabName === 'learning') loadLearning();
+        }
+
+        // ── LOAD ALL DATA ───────────────────────────────────────────
+        async function loadData() {
+            try {
+                const [devicesRes, anomaliesRes, memoryRes] = await Promise.all([
+                    fetch(`${API_BASE}/devices`),
+                    fetch(`${API_BASE}/anomalies`),
+                    fetch(`${API_BASE}/memory`)
+                ]);
+                if (!devicesRes.ok || !anomaliesRes.ok || !memoryRes.ok) return;
+
+                devices  = await devicesRes.json();
+                anomalies = await anomaliesRes.json();
+                const memory = await memoryRes.json();
+
+                renderDevices();
+                renderAnomalies();
+                updateStats(memory);
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // ── RENDER DEVICES ──────────────────────────────────────────
+        function renderDevices() {
+            const container = document.getElementById('devices-container');
+            if (!devices || devices.length === 0) {
+                container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">No devices found.</div>';
+                return;
+            }
+            container.innerHTML = devices.map(device => `
+                <div class="device-card ${device.status}">
+                    <div class="device-name">
+                        <span class="device-status ${device.status}"></span>
+                        <div>
+                            <div>${device.name}</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);">${device.severity || ''}</div>
+                        </div>
+                    </div>
+                    <div class="metric"><span class="metric-label">Latency</span><span class="metric-value">${device.latency.toFixed(1)} ms</span></div>
+                    <div class="metric"><span class="metric-label">Packet Loss</span><span class="metric-value">${device.packet_loss.toFixed(3)} %</span></div>
+                    <div class="metric"><span class="metric-label">BGP Flaps</span><span class="metric-value">${device.bgp_flaps}</span></div>
+                    <div class="metric"><span class="metric-label">Throughput</span><span class="metric-value">${device.throughput_gbps.toFixed(1)} Gbps</span></div>
+                </div>
+            `).join('');
+        }
+
+        // ── RENDER ANOMALIES ────────────────────────────────────────
+        function renderAnomalies() {
+            renderTierAnomalies(1);
+            renderTierAnomalies(2);
+            renderTierAnomalies(3);
+        }
+
+        function renderTierAnomalies(tier) {
+            const container = document.getElementById(`tier${tier}-container`);
+            const tierAnomalies = anomalies[`tier${tier}`] || [];
+            if (!tierAnomalies.length) {
+                container.innerHTML = '<p style="color:var(--text-muted);padding:1rem;">No anomalies at this tier.</p>';
+                return;
+            }
+            container.innerHTML = tierAnomalies.map(anomaly => {
+                let buttons = '';
+                if (tier === 1) buttons = `<button class="btn btn-success" onclick="approveAction('${anomaly.device}','tier1')">Auto-Execute</button>`;
+                else if (tier === 2) buttons = `
+                    <button class="btn btn-success" onclick="approveAction('${anomaly.device}','tier2',true)">Approve</button>
+                    <button class="btn btn-danger"  onclick="approveAction('${anomaly.device}','tier2',false)">Deny</button>`;
+                else buttons = `<button class="btn btn-danger" onclick="approveAction('${anomaly.device}','tier3')">Escalate</button>`;
+                return `
+                    <div class="anomaly-item">
+                        <div class="anomaly-device"><strong>${anomaly.device}</strong></div>
+                        <div class="anomaly-metrics">
+                            <div>🔴 ${anomaly.latency.toFixed(0)} ms</div>
+                            <div>📉 ${anomaly.packet_loss.toFixed(2)}%</div>
+                            <div>⚡ ${anomaly.bgp_flaps} flaps</div>
+                        </div>
+                        <div class="anomaly-action">${buttons}</div>
+                    </div>`;
+            }).join('');
+        }
+
+        // ── APPROVE / EXECUTE ACTION ────────────────────────────────
+        async function approveAction(device, tier, approved = true) {
+            const tierNum = parseInt(tier.replace('tier',''));
+            const actions = { 1:'rate_limit', 2: approved ? 'traffic_reroute' : 'deny', 3:'escalate' };
+            const action  = actions[tierNum] || 'unknown';
+            try {
+                const response = await fetch(`${API_BASE}/approve-action`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, device, user: 'Web UI', approved })
+                });
+                if (response.ok) {
+                    // Issue 4: push to action history
+                    const ts = new Date().toLocaleTimeString();
+                    actionHistory.unshift({ ts, action, device, approved });
+                    if (actionHistory.length > 50) actionHistory.pop();
+                    renderActionHistory();
+                    alert(`✅ Action ${approved ? 'approved' : 'denied'} for ${device}`);
+                    loadData();
+                }
+            } catch (error) {
+                alert('❌ Error performing action');
+            }
+        }
+
+        // ── ACTION HISTORY RENDER (Issue 4) ────────────────────────
+        function renderActionHistory() {
+            const el = document.getElementById('action-history');
+            if (!actionHistory.length) {
+                el.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;">No actions taken this session yet.</p>';
+                return;
+            }
+            el.innerHTML = actionHistory.map(h => `
+                <div style="padding:0.5rem 0.75rem;border-left:3px solid ${h.approved ? 'var(--success)' : 'var(--danger)'};margin-bottom:0.5rem;font-size:0.85rem;font-family:monospace;color:var(--text-muted);">
+                    <span style="color:var(--text-muted);">${h.ts}</span>
+                    &nbsp;<strong style="color:var(--text);">${h.action}</strong>
+                    &nbsp;on&nbsp;<strong style="color:var(--primary);">${h.device}</strong>
+                    &nbsp;<span style="color:${h.approved ? 'var(--success)':'var(--danger)'};">${h.approved ? '✅ APPROVED' : '❌ DENIED'}</span>
+                </div>
+            `).join('');
+        }
+
+        // ── UPDATE STATS ────────────────────────────────────────────
+        function updateStats(memory) {
+            const t1 = anomalies.tier1?.length || 0;
+            const t2 = anomalies.tier2?.length || 0;
+            const t3 = anomalies.tier3?.length || 0;
+            document.getElementById('total-devices').textContent    = devices.length || 0;
+            document.getElementById('total-anomalies').textContent  = t1 + t2 + t3;
+            document.getElementById('auto-fixes').textContent       = memory.tier1_auto_fix || 0;
+            document.getElementById('pending-approval').textContent = memory.tier2_pending  || 0;
+        }
+
+        // ── AUDIT LOG (Issue 4: also renders action history) ────────
+        async function loadAuditLog() {
+            renderActionHistory();
+            try {
+                const response = await fetch(`${API_BASE}/audit-log`);
+                const data     = await response.json();
+                const container = document.getElementById('audit-log-container');
+                const entries  = (data.entries || []).filter(e => e && e.trim());
+                if (!entries.length) {
+                    container.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:2rem;">No audit entries yet.</p>';
+                    return;
+                }
+                // Show newest first
+                container.innerHTML = [...entries].reverse().map(entry =>
+                    `<div class="audit-entry">${entry}</div>`
+                ).join('');
+            } catch (error) {
+                console.error('Error loading audit log:', error);
+            }
+        }
+
+        // ── TOPOLOGY (Issues 2 & 3: correct parsing + SVG graph) ────
+        async function loadTopology() {
+            try {
+                const response = await fetch(`${API_BASE}/topology`);
+                const data     = await response.json();
+                const nodes    = data.nodes || [];
+                const links    = data.links || [];
+
+                // ── Issue 3: Draw SVG network graph ──────────────────
+                drawTopoGraph(nodes, links);
+
+                // ── Issue 2: Render node detail cards ────────────────
+                const container = document.getElementById('topology-container');
+                if (!nodes.length) {
+                    container.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:2rem;">No topology data.</p>';
+                    return;
+                }
+                container.innerHTML = nodes.map(node => `
+                    <div class="device-card" style="border-color:${node.type==='host'?'var(--success)':'var(--primary)'};">
+                        <div class="device-name">
+                            <strong>${node.display_name || node.device}</strong>
+                            <span style="font-size:0.8rem;background:${node.type==='host'?'rgba(0,170,68,0.15)':'rgba(0,102,204,0.15)'};padding:2px 8px;border-radius:10px;color:var(--text-muted);">${node.type}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Status</span>
+                            <span class="metric-value" style="color:${node.status==='up'?'var(--success)':'var(--danger)'};">${node.status?.toUpperCase()}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">ID</span>
+                            <span class="metric-value" style="font-size:0.8rem;">${node.device}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Connected to</span>
+                            <span class="metric-value" style="font-size:0.78rem;">${node.connections.length ? node.connections.join(', ') : '—'}</span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Topology load error:', error);
+            }
+        }
+
+        // ── ISSUE 3: SVG Force-Layout Network Graph ──────────────────
+        function drawTopoGraph(nodes, links) {
+            const svg    = document.getElementById('topo-svg');
+            const W      = svg.clientWidth  || 900;
+            const H      = 480;
+            svg.innerHTML = '';
+            svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+            if (!nodes.length) return;
+
+            // Build id→node index map
+            const idxMap = {};
+            nodes.forEach((n, i) => { idxMap[n.device] = i; });
+
+            // Simple force positions — circular layout seeded by type
+            const pos = {};
+            const switches = nodes.filter(n => n.type !== 'host');
+            const hosts    = nodes.filter(n => n.type === 'host');
+
+            // Switches in a circle in the middle, hosts around them
+            const cx = W / 2, cy = H / 2;
+            switches.forEach((n, i) => {
+                const angle = (2 * Math.PI * i) / Math.max(switches.length, 1) - Math.PI / 2;
+                pos[n.device] = { x: cx + 180 * Math.cos(angle), y: cy + 150 * Math.sin(angle) };
+            });
+            hosts.forEach((n, i) => {
+                const angle = (2 * Math.PI * i) / Math.max(hosts.length, 1) - Math.PI / 2;
+                pos[n.device] = { x: cx + 320 * Math.cos(angle), y: cy + 240 * Math.sin(angle) };
+            });
+
+            // Draw links
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+            marker.setAttribute('id','arr'); marker.setAttribute('markerWidth','6');
+            marker.setAttribute('markerHeight','6'); marker.setAttribute('refX','5');
+            marker.setAttribute('refY','3'); marker.setAttribute('orient','auto');
+            const mpath = document.createElementNS('http://www.w3.org/2000/svg','path');
+            mpath.setAttribute('d','M0,0 L0,6 L6,3 z'); mpath.setAttribute('fill','#4a5568');
+            marker.appendChild(mpath); defs.appendChild(marker); svg.appendChild(defs);
+
+            links.forEach(link => {
+                const a = pos[link.node1], b = pos[link.node2];
+                if (!a || !b) return;
+                const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+                line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
+                line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
+                line.setAttribute('stroke', '#2d3748'); line.setAttribute('stroke-width', '2');
+                // Label in the middle
+                const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+                const lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+                lbl.setAttribute('x', mx); lbl.setAttribute('y', my - 4);
+                lbl.setAttribute('text-anchor','middle');
+                lbl.setAttribute('font-size','9'); lbl.setAttribute('fill','#4a5568');
+                lbl.textContent = `${link.bw}Mbps · ${link.delay}`;
+                svg.appendChild(line);
+                svg.appendChild(lbl);
+            });
+
+            // Draw nodes
+            nodes.forEach(n => {
+                const p = pos[n.device];
+                if (!p) return;
+                const isHost   = n.type === 'host';
+                const color    = isHost ? '#00aa44' : '#0066cc';
+                const shape    = isHost ? 'rect' : 'circle';
+                const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+                g.setAttribute('cursor','pointer');
+                g.setAttribute('title', n.device);
+
+                if (shape === 'circle') {
+                    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+                    c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); c.setAttribute('r','22');
+                    c.setAttribute('fill', color); c.setAttribute('fill-opacity','0.2');
+                    c.setAttribute('stroke', color); c.setAttribute('stroke-width','2');
+                    g.appendChild(c);
+                } else {
+                    const r = document.createElementNS('http://www.w3.org/2000/svg','rect');
+                    r.setAttribute('x', p.x-18); r.setAttribute('y', p.y-18);
+                    r.setAttribute('width','36'); r.setAttribute('height','36');
+                    r.setAttribute('rx','6'); r.setAttribute('fill', color);
+                    r.setAttribute('fill-opacity','0.2');
+                    r.setAttribute('stroke', color); r.setAttribute('stroke-width','2');
+                    g.appendChild(r);
+                }
+
+                // Icon text
+                const icon = document.createElementNS('http://www.w3.org/2000/svg','text');
+                icon.setAttribute('x', p.x); icon.setAttribute('y', p.y + 5);
+                icon.setAttribute('text-anchor','middle');
+                icon.setAttribute('font-size','14'); icon.setAttribute('fill', color);
+                icon.textContent = isHost ? '💻' : '🔀';
+                g.appendChild(icon);
+
+                // Label below
+                const label = document.createElementNS('http://www.w3.org/2000/svg','text');
+                const shortName = (n.display_name || n.device).replace(/ Router$/,'').replace(/ Core$/,'');
+                label.setAttribute('x', p.x); label.setAttribute('y', p.y + 38);
+                label.setAttribute('text-anchor','middle');
+                label.setAttribute('font-size','10'); label.setAttribute('fill','#a0aec0');
+                label.textContent = shortName;
+                g.appendChild(label);
+
+                svg.appendChild(g);
+            });
+        }
+        // ── AGENT LEARNING TAB ──────────────────────────────────────
+        async function loadLearning() {
+            try {
+                const res  = await fetch(`${API_BASE}/learning-summary`);
+                const data = await res.json();
+
+                // ── Stats row ───────────────────────────────────────
+                document.getElementById('ls-total').textContent     = data.total_decisions;
+                document.getElementById('ls-accuracy').textContent  = data.accuracy_pct + '%';
+                document.getElementById('ls-rolled').textContent    = data.rolled_back;
+                document.getElementById('ls-suboptimal').textContent = data.suboptimal;
+
+                // ── Learned IF...THEN rules ─────────────────────────
+                const rulesEl = document.getElementById('learned-rules-container');
+                if (!data.learned_rules.length) {
+                    rulesEl.innerHTML = '<p style="color:var(--text-muted);padding:1rem;">No IF→THEN rules learned yet.</p>';
+                } else {
+                    rulesEl.innerHTML = data.learned_rules.map((r, i) => {
+                        // Parse IF...THEN parts for colour split
+                        const parts   = r.rule.match(/^(IF .+?)\s+(THEN .+)$/i);
+                        const ifPart  = parts ? parts[1] : r.rule;
+                        const thenPart = parts ? parts[2] : '';
+                        const bar     = Math.min(100, r.times_applied * 12);  // visual bar width
+                        return `
+                        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;
+                                    padding:1rem 1.25rem;margin-bottom:0.75rem;position:relative;overflow:hidden;">
+                            <!-- Usage bar behind -->
+                            <div style="position:absolute;top:0;left:0;height:100%;width:${bar}%;
+                                        background:rgba(0,102,204,0.07);border-radius:10px 0 0 10px;"></div>
+                            <div style="position:relative;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+                                <div style="font-family:'Courier New',monospace;font-size:0.9rem;">
+                                    <span style="color:var(--warning);font-weight:700;">${ifPart}</span>
+                                    ${thenPart ? `<span style="color:var(--text-muted);"> → </span><span style="color:var(--success);font-weight:700;">${thenPart}</span>` : ''}
+                                </div>
+                                <span style="background:rgba(0,102,204,0.15);color:var(--primary);padding:2px 10px;
+                                             border-radius:12px;font-size:0.8rem;white-space:nowrap;">
+                                    applied ${r.times_applied}×
+                                </span>
+                            </div>
+                        </div>`;
+                    }).join('');
+                }
+
+                // ── Action distribution bars ────────────────────────
+                const distEl   = document.getElementById('action-dist-container');
+                const dist     = data.action_distribution;
+                const maxCount = Math.max(...Object.values(dist), 1);
+                const actionColors = {
+                    rate_limit:      '#0066cc',
+                    traffic_reroute: '#00aa44',
+                    config_rollback: '#ff9900',
+                    qos_adjustment:  '#9b59b6',
+                    escalate:        '#cc0000',
+                };
+                distEl.innerHTML = Object.entries(dist)
+                    .sort((a,b) => b[1]-a[1])
+                    .map(([action, count]) => {
+                        const pct   = Math.round(count / maxCount * 100);
+                        const color = actionColors[action] || '#4a5568';
+                        return `
+                        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;
+                                    padding:1rem;min-width:160px;flex:1;">
+                            <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.5px;">
+                                ${action.replace(/_/g,' ')}
+                            </div>
+                            <div style="font-size:2rem;font-weight:300;color:${color};margin-bottom:0.5rem;">${count}</div>
+                            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
+                                <div style="width:${pct}%;height:100%;background:${color};border-radius:3px;transition:width 0.5s;"></div>
+                            </div>
+                        </div>`;
+                    }).join('');
+
+                // ── Per-device accuracy table ───────────────────────
+                const devEl = document.getElementById('device-accuracy-container');
+                devEl.innerHTML = `
+                <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+                    <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+                        <thead>
+                            <tr style="background:rgba(0,0,0,0.3);">
+                                <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-muted);font-weight:600;">Device</th>
+                                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-muted);font-weight:600;">Decisions</th>
+                                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-muted);font-weight:600;">Correct</th>
+                                <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-muted);font-weight:600;">Accuracy</th>
+                                <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-muted);font-weight:600;">Top Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        ${data.device_stats.map(d => {
+                            const acc    = d.accuracy_pct;
+                            const color  = acc >= 80 ? 'var(--success)' : acc >= 60 ? 'var(--warning)' : 'var(--danger)';
+                            return `
+                            <tr style="border-top:1px solid var(--border);">
+                                <td style="padding:0.75rem 1rem;font-weight:600;">${d.device}</td>
+                                <td style="padding:0.75rem 1rem;text-align:center;">${d.total}</td>
+                                <td style="padding:0.75rem 1rem;text-align:center;color:var(--success);">${d.correct}</td>
+                                <td style="padding:0.75rem 1rem;">
+                                    <div style="display:flex;align-items:center;gap:0.75rem;">
+                                        <div style="flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;">
+                                            <div style="width:${acc}%;height:100%;background:${color};border-radius:4px;"></div>
+                                        </div>
+                                        <span style="color:${color};font-weight:600;min-width:42px;">${acc}%</span>
+                                    </div>
+                                </td>
+                                <td style="padding:0.75rem 1rem;font-family:monospace;font-size:0.82rem;color:var(--primary);">
+                                    ${d.most_frequent_action.replace(/_/g,' ')}
+                                </td>
+                            </tr>`;
+                        }).join('')}
+                        </tbody>
+                    </table>
+                </div>`;
+
+                // ── Recent decisions timeline ───────────────────────
+                const recentEl = document.getElementById('recent-decisions-container');
+                if (!data.recent_decisions.length) {
+                    recentEl.innerHTML = '<p style="color:var(--text-muted);">No decisions yet.</p>';
+                } else {
+                    recentEl.innerHTML = data.recent_decisions.map(d => {
+                        const isCorrect  = d.verdict && d.verdict.includes('✅');
+                        const isRolled   = d.verdict && d.verdict.includes('🔄');
+                        const borderCol  = isCorrect ? 'var(--success)' : isRolled ? 'var(--warning)' : 'var(--danger)';
+                        return `
+                        <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.75rem 0;border-bottom:1px solid var(--border);">
+                            <div style="width:4px;min-height:40px;background:${borderCol};border-radius:2px;flex-shrink:0;margin-top:4px;"></div>
+                            <div style="flex:1;">
+                                <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.3rem;">
+                                    <span style="font-weight:600;">${d.device}</span>
+                                    <span style="font-size:0.8rem;color:var(--text-muted);">${d.ts}</span>
+                                </div>
+                                <div style="display:flex;flex-wrap:wrap;gap:0.75rem;font-size:0.85rem;margin-bottom:0.3rem;">
+                                    <span style="color:var(--primary);font-family:monospace;">⚡ ${d.action.replace(/_/g,' ')}</span>
+                                    <span style="color:${borderCol};">${d.verdict}</span>
+                                    ${d.confidence ? `<span style="color:var(--text-muted);">conf: ${d.confidence}%</span>` : ''}
+                                    ${d.latency ? `<span style="color:var(--text-muted);">lat: ${d.latency}ms</span>` : ''}
+                                </div>
+                                ${d.rule ? `<div style="font-size:0.78rem;color:var(--text-muted);font-family:monospace;border-left:2px solid var(--border);padding-left:0.5rem;">📚 ${d.rule}</div>` : ''}
+                            </div>
+                        </div>`;
+                    }).join('');
+                }
+
+            } catch (err) {
+                console.error('Learning load error:', err);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1197 @@
+[
+  {
+    "timestamp": 1772918616.5870094,
+    "device": "Delhi-Edge-05",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 55.0,
+      "packet_loss_pct": 1.2,
+      "bgp_flaps": 0,
+      "throughput_gbps": 28.0,
+      "severity_score": -0.07026900547817816
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772918619.8830476,
+    "device": "Chennai-Link-03",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 65.0,
+      "packet_loss_pct": 1.5,
+      "bgp_flaps": 0,
+      "throughput_gbps": 26.0,
+      "severity_score": -0.07026900547817816
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772918634.8691916,
+    "device": "Bangalore-Core-02",
+    "action": "escalate",
+    "trigger_metrics": {
+      "latency_ms": 1200.0,
+      "packet_loss_pct": 60.0,
+      "bgp_flaps": 25,
+      "throughput_gbps": 0.1,
+      "severity_score": -0.09233850141898381
+    },
+    "predicted_outcome": {
+      "latency_reduction": "N/A",
+      "risk": "high",
+      "reversible": false,
+      "recovery_mins": 60
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF latency > 1000ms AND packet_loss > 50% THEN escalate_to_tier_3_support",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772918638.168221,
+    "device": "Mumbai-Core-01",
+    "action": "escalate",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": 45.0,
+      "bgp_flaps": 20,
+      "throughput_gbps": null,
+      "severity_score": -0.09233850141898381
+    },
+    "predicted_outcome": {
+      "latency_reduction": "N/A",
+      "risk": "high",
+      "reversible": false,
+      "recovery_mins": 60
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN traffic_reroute \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772918646.7973008,
+    "device": "NYC-Peering-01",
+    "action": "ROLLBACK:traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": 250.0,
+      "packet_loss_pct": 10.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": null,
+      "severity_score": -0.07664254791929648
+    },
+    "predicted_outcome": {
+      "latency_reduction": "restoring pre-action state"
+    },
+    "outcome_verdict": "\ud83d\udd04 ROLLED BACK",
+    "outcome_correct": false,
+    "learned_rule": null,
+    "status": "ROLLBACK"
+  },
+  {
+    "timestamp": 1772918646.8014338,
+    "device": "NYC-Peering-01",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": 250.0,
+      "packet_loss_pct": 10.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 7.0,
+      "severity_score": -0.07664254791929648
+    },
+    "predicted_outcome": {
+      "latency_reduction": "60-80%",
+      "risk": "medium",
+      "reversible": true,
+      "recovery_mins": 10
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 10% THEN traffic_reroute",
+    "status": "ROLLBACK_REQUESTED"
+  },
+  {
+    "timestamp": 1772918656.3556023,
+    "device": "Mumbai-Core-01",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": 12.0,
+      "bgp_flaps": null,
+      "throughput_gbps": 5.0,
+      "severity_score": -0.07664254791929648
+    },
+    "predicted_outcome": {
+      "latency_reduction": "60-80%",
+      "risk": "medium",
+      "reversible": true,
+      "recovery_mins": 10
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN traffic_reroute \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772918659.7180204,
+    "device": "Delhi-Edge-05",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 55.0,
+      "packet_loss_pct": 1.2,
+      "bgp_flaps": 0,
+      "throughput_gbps": 28.0,
+      "severity_score": -0.07026900547817816
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772918663.0581543,
+    "device": "Chennai-Link-03",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 65.0,
+      "packet_loss_pct": null,
+      "bgp_flaps": 0,
+      "throughput_gbps": 26.0,
+      "severity_score": -0.07026900547817816
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772937532.1492858,
+    "device": "Bangalore-Core-02",
+    "action": "escalate",
+    "trigger_metrics": {
+      "latency_ms": 1200.0,
+      "packet_loss_pct": null,
+      "bgp_flaps": null,
+      "throughput_gbps": 0.1,
+      "severity_score": -0.09233850141898381
+    },
+    "predicted_outcome": {
+      "latency_reduction": "N/A",
+      "risk": "high",
+      "reversible": false,
+      "recovery_mins": 60
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF latency > 1000ms THEN escalate_to_tier_3_support",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772937535.5417078,
+    "device": "Mumbai-Core-01",
+    "action": "escalate",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": null,
+      "bgp_flaps": 20,
+      "throughput_gbps": 0.3,
+      "severity_score": -0.09233850141898381
+    },
+    "predicted_outcome": {
+      "latency_reduction": "N/A",
+      "risk": "high",
+      "reversible": false,
+      "recovery_mins": 60
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN traffic_reroute \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772937548.124766,
+    "device": "Mumbai-Core-01",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": 300.0,
+      "packet_loss_pct": 12.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 5.0,
+      "severity_score": -0.07664254791929648
+    },
+    "predicted_outcome": {
+      "latency_reduction": "60-80%",
+      "risk": "medium",
+      "reversible": true,
+      "recovery_mins": 10
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN traffic_reroute \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772937551.4941835,
+    "device": "Delhi-Edge-05",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 55.0,
+      "packet_loss_pct": 1.2,
+      "bgp_flaps": 0,
+      "throughput_gbps": 28.0,
+      "severity_score": -0.07026900547817816
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772937554.847466,
+    "device": "Chennai-Link-03",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 65.0,
+      "packet_loss_pct": 1.5,
+      "bgp_flaps": 0,
+      "throughput_gbps": 26.0,
+      "severity_score": -0.07026900547817816
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772937808.5876465,
+    "device": "Bangalore-Core-02",
+    "action": "escalate",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": null,
+      "bgp_flaps": 25,
+      "throughput_gbps": null,
+      "severity_score": -0.09233850141898381
+    },
+    "predicted_outcome": {
+      "latency_reduction": "N/A",
+      "risk": "high",
+      "reversible": false,
+      "recovery_mins": 60
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF bgp_flaps > 20 THEN escalate_to_tier_3_support",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772937812.0608294,
+    "device": "Mumbai-Core-01",
+    "action": "escalate",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": 45.0,
+      "bgp_flaps": 20,
+      "throughput_gbps": 0.3,
+      "severity_score": -0.09233850141898381
+    },
+    "predicted_outcome": {
+      "latency_reduction": "N/A",
+      "risk": "high",
+      "reversible": false,
+      "recovery_mins": 60
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN traffic_reroute \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772937829.4786217,
+    "device": "Mumbai-Core-01",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": 300.0,
+      "packet_loss_pct": 12.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 5.0,
+      "severity_score": -0.07664254791929648
+    },
+    "predicted_outcome": {
+      "latency_reduction": "60-80%",
+      "risk": "medium",
+      "reversible": true,
+      "recovery_mins": 10
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN traffic_reroute \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772937897.852539,
+    "device": "NYC-Peering-01",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": 250.0,
+      "packet_loss_pct": 10.0,
+      "bgp_flaps": null,
+      "throughput_gbps": 7.0,
+      "severity_score": -0.07664254791929648
+    },
+    "predicted_outcome": {
+      "latency_reduction": "60-80%",
+      "risk": "medium",
+      "reversible": true,
+      "recovery_mins": 10
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 10% THEN traffic_reroute",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772937901.3076518,
+    "device": "Delhi-Edge-05",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 55.0,
+      "packet_loss_pct": 1.2,
+      "bgp_flaps": 0,
+      "throughput_gbps": 28.0,
+      "severity_score": -0.07026900547817816
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772937904.6448135,
+    "device": "Chennai-Link-03",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 65.0,
+      "packet_loss_pct": 1.5,
+      "bgp_flaps": 0,
+      "throughput_gbps": 26.0,
+      "severity_score": -0.07026900547817816
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772959648.346064,
+    "device": "Bangalore-Core-02",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": 1200.0,
+      "packet_loss_pct": 60.0,
+      "bgp_flaps": 25,
+      "throughput_gbps": 0.1,
+      "severity_score": -0.07723695874144487
+    },
+    "predicted_outcome": {
+      "latency_reduction": "60-80%",
+      "risk": "medium",
+      "reversible": true,
+      "recovery_mins": 10
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF latency > 1000ms AND packet_loss > 50% THEN escalate_to_tier_3_support",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772959654.0961618,
+    "device": "Mumbai-Core-01",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": 45.0,
+      "bgp_flaps": null,
+      "throughput_gbps": null,
+      "severity_score": -0.07328507114773752
+    },
+    "predicted_outcome": {
+      "latency_reduction": "N/A",
+      "risk": "N/A",
+      "reversible": true,
+      "recovery_mins": 0
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN traffic_reroute \u2014 to mitigate customer impact",
+    "status": "REJECTED_BY_OPERATOR"
+  },
+  {
+    "timestamp": 1772959657.5502276,
+    "device": "Mumbai-Core-01",
+    "action": "qos_adjustment",
+    "trigger_metrics": {
+      "latency_ms": 300.0,
+      "packet_loss_pct": 12.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 5.0,
+      "severity_score": -0.06642053003314019
+    },
+    "predicted_outcome": {
+      "latency_reduction": "20-30%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 3
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN qos_adjustment \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772959660.8306148,
+    "device": "NYC-Peering-01",
+    "action": "qos_adjustment",
+    "trigger_metrics": {
+      "latency_ms": 250.0,
+      "packet_loss_pct": 10.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 7.0,
+      "severity_score": -0.06398462358795398
+    },
+    "predicted_outcome": {
+      "latency_reduction": "20-30%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 3
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 10% THEN qos_adjustment",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772959664.258125,
+    "device": "Delhi-Edge-05",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 55.0,
+      "packet_loss_pct": null,
+      "bgp_flaps": 0,
+      "throughput_gbps": 28.0,
+      "severity_score": -0.056626311340884694
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss == UNAVAILABLE THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772959667.5660963,
+    "device": "Chennai-Link-03",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 65.0,
+      "packet_loss_pct": 1.5,
+      "bgp_flaps": 0,
+      "throughput_gbps": 26.0,
+      "severity_score": -0.056626311340884694
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772960019.130153,
+    "device": "Bangalore-Core-02",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": 1200.0,
+      "packet_loss_pct": 60.0,
+      "bgp_flaps": 25,
+      "throughput_gbps": 0.1,
+      "severity_score": -0.07723695874144487
+    },
+    "predicted_outcome": {
+      "latency_reduction": "N/A",
+      "risk": "N/A",
+      "reversible": true,
+      "recovery_mins": 0
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF latency > 1000ms AND packet_loss > 50% THEN traffic_reroute",
+    "status": "REJECTED_BY_OPERATOR"
+  },
+  {
+    "timestamp": 1772960025.5112731,
+    "device": "Mumbai-Core-01",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": 45.0,
+      "bgp_flaps": 20,
+      "throughput_gbps": 0.3,
+      "severity_score": -0.07328507114773752
+    },
+    "predicted_outcome": {
+      "latency_reduction": "60-80%",
+      "risk": "medium",
+      "reversible": true,
+      "recovery_mins": 10
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN traffic_reroute \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772960028.8784955,
+    "device": "Mumbai-Core-01",
+    "action": "qos_adjustment",
+    "trigger_metrics": {
+      "latency_ms": 300.0,
+      "packet_loss_pct": 12.0,
+      "bgp_flaps": null,
+      "throughput_gbps": null,
+      "severity_score": -0.06642053003314019
+    },
+    "predicted_outcome": {
+      "latency_reduction": "20-30%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 3
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN qos_adjustment \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772960032.1715202,
+    "device": "NYC-Peering-01",
+    "action": "qos_adjustment",
+    "trigger_metrics": {
+      "latency_ms": 250.0,
+      "packet_loss_pct": 10.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 7.0,
+      "severity_score": -0.06398462358795398
+    },
+    "predicted_outcome": {
+      "latency_reduction": "20-30%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 3
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 10% THEN qos_adjustment",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772960035.4307492,
+    "device": "Delhi-Edge-05",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 55.0,
+      "packet_loss_pct": 1.2,
+      "bgp_flaps": 0,
+      "throughput_gbps": 28.0,
+      "severity_score": -0.056626311340884694
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772960038.7424731,
+    "device": "Chennai-Link-03",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 65.0,
+      "packet_loss_pct": 1.5,
+      "bgp_flaps": null,
+      "throughput_gbps": 26.0,
+      "severity_score": -0.056626311340884694
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772960697.139477,
+    "device": "Bangalore-Core-02",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": 60.0,
+      "bgp_flaps": 25,
+      "throughput_gbps": 0.1,
+      "severity_score": -0.07723695874144487
+    },
+    "predicted_outcome": {
+      "latency_reduction": "60-80%",
+      "risk": "medium",
+      "reversible": true,
+      "recovery_mins": 10
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF bgp_flaps > 20 THEN traffic_reroute",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772960702.4589264,
+    "device": "Mumbai-Core-01",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": 900.0,
+      "packet_loss_pct": null,
+      "bgp_flaps": 20,
+      "throughput_gbps": null,
+      "severity_score": -0.07328507114773752
+    },
+    "predicted_outcome": {
+      "latency_reduction": "N/A",
+      "risk": "N/A",
+      "reversible": true,
+      "recovery_mins": 0
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss == UNAVAILABLE THEN traffic_reroute \u2014 to mitigate potential customer impact",
+    "status": "REJECTED_BY_OPERATOR"
+  },
+  {
+    "timestamp": 1772960705.7937996,
+    "device": "Mumbai-Core-01",
+    "action": "qos_adjustment",
+    "trigger_metrics": {
+      "latency_ms": 300.0,
+      "packet_loss_pct": 12.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 5.0,
+      "severity_score": -0.06642053003314019
+    },
+    "predicted_outcome": {
+      "latency_reduction": "20-30%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 3
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN qos_adjustment \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772960709.0954237,
+    "device": "NYC-Peering-01",
+    "action": "qos_adjustment",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": 10.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 7.0,
+      "severity_score": -0.06398462358795398
+    },
+    "predicted_outcome": {
+      "latency_reduction": "20-30%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 3
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 10% THEN qos_adjustment",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772960712.4362535,
+    "device": "Delhi-Edge-05",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 55.0,
+      "packet_loss_pct": 1.2,
+      "bgp_flaps": 0,
+      "throughput_gbps": 28.0,
+      "severity_score": -0.056626311340884694
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772960715.837909,
+    "device": "Chennai-Link-03",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": 1.5,
+      "bgp_flaps": 0,
+      "throughput_gbps": 26.0,
+      "severity_score": -0.056626311340884694
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772961040.4869654,
+    "device": "Bangalore-Core-02",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": 1200.0,
+      "packet_loss_pct": 60.0,
+      "bgp_flaps": 25,
+      "throughput_gbps": null,
+      "severity_score": -0.07723695874144487
+    },
+    "predicted_outcome": {
+      "latency_reduction": "60-80%",
+      "risk": "medium",
+      "reversible": true,
+      "recovery_mins": 10
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF latency > 1000ms AND packet_loss > 50% THEN traffic_reroute",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772961045.823811,
+    "device": "Mumbai-Core-01",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": 900.0,
+      "packet_loss_pct": null,
+      "bgp_flaps": null,
+      "throughput_gbps": 0.3,
+      "severity_score": -0.07328507114773752
+    },
+    "predicted_outcome": {
+      "latency_reduction": "N/A",
+      "risk": "N/A",
+      "reversible": true,
+      "recovery_mins": 0
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss == UNAVAILABLE THEN traffic_reroute \u2014 to mitigate potential customer impact",
+    "status": "REJECTED_BY_OPERATOR"
+  },
+  {
+    "timestamp": 1772961049.1681187,
+    "device": "Mumbai-Core-01",
+    "action": "qos_adjustment",
+    "trigger_metrics": {
+      "latency_ms": 300.0,
+      "packet_loss_pct": 12.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 5.0,
+      "severity_score": -0.06642053003314019
+    },
+    "predicted_outcome": {
+      "latency_reduction": "20-30%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 3
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN qos_adjustment \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772961052.5131066,
+    "device": "NYC-Peering-01",
+    "action": "qos_adjustment",
+    "trigger_metrics": {
+      "latency_ms": 250.0,
+      "packet_loss_pct": 10.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 7.0,
+      "severity_score": -0.06398462358795398
+    },
+    "predicted_outcome": {
+      "latency_reduction": "20-30%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 3
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 10% THEN qos_adjustment",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772961055.9526591,
+    "device": "Delhi-Edge-05",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 55.0,
+      "packet_loss_pct": null,
+      "bgp_flaps": 0,
+      "throughput_gbps": 28.0,
+      "severity_score": -0.056626311340884694
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss == UNAVAILABLE THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772961059.2758856,
+    "device": "Chennai-Link-03",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 65.0,
+      "packet_loss_pct": 1.5,
+      "bgp_flaps": 0,
+      "throughput_gbps": 26.0,
+      "severity_score": -0.056626311340884694
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772970331.6555543,
+    "device": "Bangalore-Core-02",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": 1200.0,
+      "packet_loss_pct": null,
+      "bgp_flaps": 25,
+      "throughput_gbps": 0.1,
+      "severity_score": -0.07723695874144487
+    },
+    "predicted_outcome": {
+      "latency_reduction": "60-80%",
+      "risk": "medium",
+      "reversible": true,
+      "recovery_mins": 10
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF bgp_flaps > 20 THEN traffic_reroute",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772970339.2289243,
+    "device": "Mumbai-Core-01",
+    "action": "traffic_reroute",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": 45.0,
+      "bgp_flaps": null,
+      "throughput_gbps": null,
+      "severity_score": -0.07328507114773752
+    },
+    "predicted_outcome": {
+      "latency_reduction": "N/A",
+      "risk": "N/A",
+      "reversible": true,
+      "recovery_mins": 0
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN qos_adjustment \u2014 to mitigate customer impact",
+    "status": "REJECTED_BY_OPERATOR"
+  },
+  {
+    "timestamp": 1772970342.643227,
+    "device": "Mumbai-Core-01",
+    "action": "qos_adjustment",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": 12.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 5.0,
+      "severity_score": -0.06642053003314019
+    },
+    "predicted_outcome": {
+      "latency_reduction": "20-30%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 3
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 12% THEN qos_adjustment \u2014 to mitigate customer impact",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772970345.9871697,
+    "device": "NYC-Peering-01",
+    "action": "qos_adjustment",
+    "trigger_metrics": {
+      "latency_ms": null,
+      "packet_loss_pct": 10.0,
+      "bgp_flaps": 0,
+      "throughput_gbps": 7.0,
+      "severity_score": -0.06398462358795398
+    },
+    "predicted_outcome": {
+      "latency_reduction": "20-30%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 3
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 10% THEN qos_adjustment",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772970349.30615,
+    "device": "Delhi-Edge-05",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 55.0,
+      "packet_loss_pct": 1.2,
+      "bgp_flaps": 0,
+      "throughput_gbps": 28.0,
+      "severity_score": -0.056626311340884694
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  },
+  {
+    "timestamp": 1772970352.8086934,
+    "device": "Chennai-Link-03",
+    "action": "rate_limit",
+    "trigger_metrics": {
+      "latency_ms": 65.0,
+      "packet_loss_pct": 1.5,
+      "bgp_flaps": 0,
+      "throughput_gbps": 26.0,
+      "severity_score": -0.056626311340884694
+    },
+    "predicted_outcome": {
+      "latency_reduction": "30-40%",
+      "risk": "low",
+      "reversible": true,
+      "recovery_mins": 5
+    },
+    "outcome_verdict": "\u2705 CORRECT",
+    "outcome_confidence": 100,
+    "outcome_correct": true,
+    "better_action": null,
+    "learned_rule": "IF packet_loss > 1% THEN rate_limit",
+    "status": "EXECUTED"
+  }
+]

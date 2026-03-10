@@ -1,0 +1,213 @@
+{
+  "topology": {
+    "name": "NeuroTech Global Network",
+    "nodes": [
+      {
+        "id": "Mumbai-Core-01",
+        "type": "switch",
+        "status": "up",
+        "display_name": "Mumbai Core Router"
+      },
+      {
+        "id": "Bangalore-Core-02",
+        "type": "switch",
+        "status": "up",
+        "display_name": "Bangalore Core Router"
+      },
+      {
+        "id": "Delhi-Edge-05",
+        "type": "switch",
+        "status": "up",
+        "display_name": "Delhi Edge Router"
+      },
+      {
+        "id": "NYC-Peering-01",
+        "type": "switch",
+        "status": "up",
+        "display_name": "NYC Peering Router"
+      },
+      {
+        "id": "Chennai-Link-03",
+        "type": "switch",
+        "status": "up",
+        "display_name": "Chennai Link Router"
+      },
+      {
+        "id": "London-Core-01",
+        "type": "switch",
+        "status": "up",
+        "display_name": "London Core Router"
+      },
+      {
+        "id": "Frankfurt-Core-02",
+        "type": "switch",
+        "status": "up",
+        "display_name": "Frankfurt Core Router"
+      },
+      {
+        "id": "Host-Mumbai-01",
+        "type": "host",
+        "status": "up",
+        "display_name": "Host-Mumbai-01"
+      },
+      {
+        "id": "Host-Delhi-01",
+        "type": "host",
+        "status": "up",
+        "display_name": "Host-Delhi-01"
+      },
+      {
+        "id": "Host-Bangalore-01",
+        "type": "host",
+        "status": "up",
+        "display_name": "Host-Bangalore-01"
+      },
+      {
+        "id": "Host-NYC-01",
+        "type": "host",
+        "status": "up",
+        "display_name": "Host-NYC-01"
+      },
+      {
+        "id": "Host-Chennai-01",
+        "type": "host",
+        "status": "up",
+        "display_name": "Host-Chennai-01"
+      },
+      {
+        "id": "Host-Frankfurt-01",
+        "type": "host",
+        "status": "up",
+        "display_name": "Host-Frankfurt-01"
+      }
+    ],
+    "links": [
+      {
+        "id": "Mumbai-Core-01-Bangalore-Core-02",
+        "node1": "Mumbai-Core-01",
+        "node2": "Bangalore-Core-02",
+        "bw": 100,
+        "delay": "1ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "Mumbai-Core-01-Delhi-Edge-05",
+        "node1": "Mumbai-Core-01",
+        "node2": "Delhi-Edge-05",
+        "bw": 10,
+        "delay": "5ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "Mumbai-Core-01-Host-Mumbai-01",
+        "node1": "Mumbai-Core-01",
+        "node2": "Host-Mumbai-01",
+        "bw": 100,
+        "delay": "1ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "Bangalore-Core-02-Chennai-Link-03",
+        "node1": "Bangalore-Core-02",
+        "node2": "Chennai-Link-03",
+        "bw": 10,
+        "delay": "5ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "Bangalore-Core-02-Host-Bangalore-01",
+        "node1": "Bangalore-Core-02",
+        "node2": "Host-Bangalore-01",
+        "bw": 100,
+        "delay": "1ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "Delhi-Edge-05-Host-Delhi-01",
+        "node1": "Delhi-Edge-05",
+        "node2": "Host-Delhi-01",
+        "bw": 100,
+        "delay": "1ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "Chennai-Link-03-Host-Chennai-01",
+        "node1": "Chennai-Link-03",
+        "node2": "Host-Chennai-01",
+        "bw": 100,
+        "delay": "1ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "Chennai-Link-03-Mumbai-Core-01",
+        "node1": "Chennai-Link-03",
+        "node2": "Mumbai-Core-01",
+        "bw": 10,
+        "delay": "8ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "NYC-Peering-01-London-Core-01",
+        "node1": "NYC-Peering-01",
+        "node2": "London-Core-01",
+        "bw": 50,
+        "delay": "10ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "London-Core-01-Frankfurt-Core-02",
+        "node1": "London-Core-01",
+        "node2": "Frankfurt-Core-02",
+        "bw": 50,
+        "delay": "5ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "NYC-Peering-01-Host-NYC-01",
+        "node1": "NYC-Peering-01",
+        "node2": "Host-NYC-01",
+        "bw": 100,
+        "delay": "1ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "Frankfurt-Core-02-Host-Frankfurt-01",
+        "node1": "Frankfurt-Core-02",
+        "node2": "Host-Frankfurt-01",
+        "bw": 100,
+        "delay": "1ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "Frankfurt-Core-02-NYC-Peering-01",
+        "node1": "Frankfurt-Core-02",
+        "node2": "NYC-Peering-01",
+        "bw": 50,
+        "delay": "15ms",
+        "loss": 0,
+        "status": "up"
+      },
+      {
+        "id": "Mumbai-Core-01-London-Core-01",
+        "node1": "Mumbai-Core-01",
+        "node2": "London-Core-01",
+        "bw": 40,
+        "delay": "80ms",
+        "loss": 0,
+        "status": "up"
+      }
+    ]
+  }
+}
